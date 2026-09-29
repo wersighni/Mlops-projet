@@ -27,6 +27,10 @@ def run(cmd, check=True):
 
 
 # ---------- Taches liees au code ----------
+@task(name="git_pull")
+def git_pull():
+    """Recupere la derniere version du projet depuis GitHub."""
+    run(["git", "pull", "origin", "main"], check=False)
 @task(name="install_dependencies")
 def install_dependencies():
     """Installe les dependances du projet."""
@@ -132,6 +136,7 @@ def predict_flow():
 @flow(name="all")
 def all_flow():
     """Pipeline complet."""
+    git_pull()
     install_dependencies()
     format_code()
     check_quality()
